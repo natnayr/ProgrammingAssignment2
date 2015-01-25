@@ -1,9 +1,7 @@
-## Put comments here that give an overall description of what your
-## functions do
-
 ## function makeCacheMatrix provides the lexical scoping functions
-## that are return as a list(), this includes the set/get for the cache value
-## and setSolve/getSolve 
+## that are return as a list() for the function cacheSolve, 
+## this includes the get for the cache value
+## and setInmatrix/getInmatrix 
 makeCacheMatrix <- function(x = matrix()) {
     m <- NULL
     
@@ -23,8 +21,9 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## Assuming provided is always an invertible matrix,
 ## function first param is matrix, followed by other variables.
-#   1. load cahce, if not null then return cache of x
-#   2. if null, get supplied matrix from "get", perform inverse
+#   1. input of function is given
+#   2. loads cache, if not null then return cache of x
+#   3. if null, get supplied matrix from "get", perform inverse
 #   and cache for later. 
 cacheSolve <- function(x, ...) {
     
