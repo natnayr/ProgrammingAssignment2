@@ -5,26 +5,19 @@
 ## that are return as a list(), this includes the set/get for the cache value
 ## and setSolve/getSolve 
 makeCacheMatrix <- function(x = matrix()) {
-    s <- NULL
-    #set for the input non-inversed matrix
-    set <- function(y){
-        x <<- y
-        s <<- NULL
-    }
+    m <- NULL
     
     #getter function, gets input non-inversed matrix
     get <- function() x
     
     #to cache to inversed matrix
-    setSolve <- function(solve) s <<- solve
+    setInmatrix <- function(Inmatrix) m <<- Inmatrix
     
-    #returns cached inversed matrix
-    getSolve <- function() s
+    getInmatrix <- function() m
     
     #return list of four functions when makeCacheMatrix is called
-    list(set = set, get = get, 
-         setSolve = setSolve, 
-         getSolve = getSolve)
+    list(get = get, setInmatrix = setInmatrix, 
+         getInmatrix = getInmatrix)
 }
 
 
@@ -35,16 +28,17 @@ makeCacheMatrix <- function(x = matrix()) {
 #   and cache for later. 
 cacheSolve <- function(x, ...) {
     
-    s <- x$getSolve() #load cached inverse matrix
+    m <- x$getInmatrix() #load cached inverse matrix
     
     #return immediately matrix if found
-    if(!is.null(s)){
+    if(!is.null(m)){
         message("returning cached matrix")
-        return(s)
+        return(m)
     }
     
+    message("No cache data found, data will be inverted and cached")
     data <- x$get()     #supplied matrix is retreived and set as "data"
-    s <- solve(data, ...)   #inverse matrix is generated
-    x$setSolve(s)   #goes into function and sets the matrix as cache
-    s   # return inverse matrix
+    m <- solve(data, ...)   #inverse matrix is generated
+    x$setInmatrix(m)   #goes into function and sets the matrix as cache
+    m   # return inverse matrix
 }
