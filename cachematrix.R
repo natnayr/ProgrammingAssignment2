@@ -1,15 +1,50 @@
 ## Put comments here that give an overall description of what your
 ## functions do
 
-## Write a short comment describing this function
-
+## function makeCacheMatrix provides the lexical scoping functions
+## that are return as a list(), this includes the set/get for the cache value
+## and setSolve/getSolve 
 makeCacheMatrix <- function(x = matrix()) {
-
+    s <- NULL
+    #set for the input non-inversed matrix
+    set <- function(y){
+        x <<- y
+        s <<- NULL
+    }
+    
+    #getter function, gets input non-inversed matrix
+    get <- function() x
+    
+    #to cache to inversed matrix
+    setSolve <- function(solve) s <<- solve
+    
+    #returns cached inversed matrix
+    getSolve <- function() s
+    
+    #return list of four functions when makeCacheMatrix is called
+    list(set = set, get = get, 
+         setSolve = setSolve, 
+         getSolve = getSolve)
 }
 
 
-## Write a short comment describing this function
-
+## Assuming provided is always an invertible matrix,
+## function first param is matrix, followed by other variables.
+#   1. load cahce, if not null then return cache of x
+#   2. if null, get supplied matrix from "get", perform inverse
+#   and cache for later. 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    
+    s <- x$getSolve() #load cached inverse matrix
+    
+    #return immediately matrix if found
+    if(!is.null(s)){
+        message("returning cached matrix")
+        return(s)
+    }
+    
+    data <- x$get()     #supplied matrix is retreived and set as "data"
+    s <- solve(data, ...)   #inverse matrix is generated
+    x$setSolve(s)   #goes into function and sets the matrix as cache
+    s   # return inverse matrix
 }
